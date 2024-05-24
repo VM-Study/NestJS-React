@@ -1,0 +1,23 @@
+{
+  "name": "guitarshop",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "start:backend": "npm run start --workspace backend",
+    "build:backend": "npm run build --workspace backend",
+
+    "start:frontend": "npm run start --workspace frontend",
+    "build:frontend": "npm run build --workspace frontend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
