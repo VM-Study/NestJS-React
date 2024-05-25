@@ -1,8 +1,14 @@
-import { NestFactory } from '@nestjs/core';
-import { User } from 'shared/type/user';
-import { AppModule } from './app.module';
+import {NestFactory} from '@nestjs/core';
+import {User} from 'shared/type/user';
+import {AppModule} from './app.module';
+import {ConfigService} from "./config/config.service";
 
 async function bootstrap() {
+
+  const config = ConfigService.loadConfig();
+  console.log(config.PORT);
+  console.log(config.DATABASE_URL);
+
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);
 }
