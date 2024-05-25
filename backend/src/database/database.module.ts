@@ -1,15 +1,10 @@
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from '../config/config.service';
 
-const config = ConfigService.getConfig();
+const dbConnectionString = ConfigService.getMongoConnectionString();
 
-// @Module({
-//     imports: [
-//         TypeOrmModule.forRoot({
-//             type: 'mongodb',
-//             url: config.DATABASE_URL,
-//             entities: [],
-//             synchronize: true,
-//         }),
-//     ],
-// })
+@Module({
+  imports: [MongooseModule.forRoot(dbConnectionString)],
+})
 export class DatabaseModule {}

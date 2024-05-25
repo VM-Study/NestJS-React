@@ -27,4 +27,17 @@ export class ConfigService {
     }
     return this.config;
   }
+
+  public static getMongoConnectionString(): string {
+    const {
+      MONGO_HOST,
+      MONGO_PORT,
+      MONGO_DB,
+      MONGO_USER,
+      MONGO_PASSWORD,
+      MONGO_AUTH_BASE,
+    } = this.getConfig();
+
+    return `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=${MONGO_AUTH_BASE}`;
+  }
 }
