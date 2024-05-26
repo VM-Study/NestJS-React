@@ -14,7 +14,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRdo } from './rdo/user.rdo';
 import { UserService } from './user.service';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UserController {
   private readonly logger = new Logger(UserController.name);
@@ -22,6 +24,13 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('')
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiResponse({
+    status: 201,
+    description: 'The user has been successfully created.',
+    type: UserRdo,
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
   public async createUser(@Body() dto: CreateUserDto): Promise<UserRdo> {
     this.logger.log(`Creating new user with email: '${dto.email}'`);
     const createdUser = await this.userService.createUser(dto);
@@ -30,6 +39,13 @@ export class UserController {
   }
 
   @Get(':userId')
+  @ApiOperation({ summary: 'Get user by ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'The user has been successfully retrieved.',
+    type: UserRdo,
+  })
+  @ApiResponse({ status: 404, description: 'User not found.' })
   public async getUser(
     @Param('userId', MongoIdValidationPipe) userId: string,
   ): Promise<UserRdo> {
@@ -40,6 +56,13 @@ export class UserController {
   }
 
   @Patch(':userId')
+  @ApiOperation({ summary: 'Update user' })
+  @ApiResponse({
+    status: 200,
+    description: 'The user has been successfully updated.',
+    type: UserRdo,
+  })
+  @ApiResponse({ status: 404, description: 'User not found.' })
   public async updateUser(
     @Param('userId', MongoIdValidationPipe) userId: string,
     @Body() dto: UpdateUserDto,
@@ -51,7 +74,14 @@ export class UserController {
   }
 
   @Delete(':userId')
-  public async deleteComment(
+  @ApiOperation({ summary: 'Delete user by ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'The user has been successfully deleted.',
+    type: UserRdo,
+  })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  public async deleteUser(
     @Param('userId', MongoIdValidationPipe) userId: string,
   ): Promise<UserRdo> {
     this.logger.log(`Attempting to delete user with ID: ${userId}`);
